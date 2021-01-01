@@ -1,4 +1,10 @@
-;;;; to use all of this, you need to have emacs server runnning: in Emacs, run
+;;;; code in this file copies colors from Emacs, hence its working name is
+;;;; "emacs-colorscheme-theme"
+;;;; for me it worked and looked fine with multiple themes, but it's sort of a
+;;;; Russian roulette
+
+;;;; to use all of this, you need to have Emacs and emacs server runnning at the
+;;;; time of opening the browser: in Emacs, execute
 ;;;; M-x server-start RET
 
 (in-package :nyxt-user)
