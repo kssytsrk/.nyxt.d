@@ -21,7 +21,7 @@
                                                    (string-downcase (string face))
                                                    " :"
                                                    (string-downcase (string attribute))
-                                                   ")\"")
+                                                   " nil :inherit)\"")
                                       :output '(:string :stripped t))))
 
 (let ((bg (emacs-face-attribute 'default :background))
@@ -32,15 +32,15 @@
       ;;(ml-inactive-fg (emacs-face-attribute 'mode-line-inactive :foreground))
       (ml-highlight-fg (emacs-face-attribute 'mode-line-highlight :foreground))
       (ml-emphasis-fg (emacs-face-attribute 'mode-line-emphasis :foreground))
-      (h1 (emacs-face-attribute 'org-level-1 :foreground))
-      (h2 (emacs-face-attribute 'org-level-2 :foreground))
-      (h3 (emacs-face-attribute 'org-level-3 :foreground))
-      (h4 (emacs-face-attribute 'org-level-4 :foreground))
+      (h1 (emacs-face-attribute 'outline-1 :foreground))
+      (h2 (emacs-face-attribute 'outline-2 :foreground))
+      (h3 (emacs-face-attribute 'outline-3 :foreground))
+      (h4 (emacs-face-attribute 'outline-4 :foreground))
+      (h5 (emacs-face-attribute 'outline-5 :foreground))
+      (h6 (emacs-face-attribute 'outline-6 :foreground))
       (a (emacs-face-attribute 'link :foreground))
-      (hrfg (emacs-face-attribute 'fringe :foreground))
-      (hrbg (emacs-face-attribute 'fringe :background))
+      (hrfg (emacs-face-attribute 'vertical-border :foreground))
       (cursor (emacs-face-attribute 'cursor :background))
-      (hder-separator (emacs-face-attribute 'helm-header :foreground))
       (mb-prompt (emacs-face-attribute 'minibuffer-prompt :foreground)) ; minibuffer prompt
       (mb-selection (emacs-face-attribute 'helm-selection :background))
       (mb-separator (emacs-face-attribute 'helm-separator :foreground)))
@@ -86,7 +86,7 @@
              :background-color ,(override bg)
              :color ,(override fg))
             (hr
-             :background-color ,(override hrbg)
+             :background-color ,(override bg)
              :color ,(override hrfg))
             (.button
              :background-color ,(override mlbg)
@@ -108,18 +108,11 @@
             (h4
              :color ,(override h4))
             (h5
-             :color ,(override h4))
+             :color ,(override h5))
             (h6
-             :color ,(override h4))))))))
+             :color ,(override h6))))))))
 
   ;; status bar
-  (setf nyxt::*invisible-modes*
-        (nconc nyxt::*invisible-modes*
-               '("certificate-exception-mode"
-                 "reduce-tracking-mode"
-                 "blocker-mode"
-                 "noscript-mode"
-                 "auto-mode")))
 
   (defun loadingp (&optional (buffer (current-buffer)))
     (and (web-buffer-p buffer)
@@ -166,6 +159,10 @@
   ;; ((default-modes (append '(emacs-colorscheme-mode)
   ;;                         %slot-default))))
 
+  (nyxt::define-bookmarklet-command turn-into-my-colorscheme
+    "Modify the page with my colors"
+    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:" fg " !important;')+e.getAttribute('style'))"))
+
   (define-mode emacs-colorscheme-mode (nyxt/style-mode:style-mode)
     ((nyxt/style-mode:style (cl-css:css
                              `((body
@@ -174,8 +171,14 @@
                                (".mw-body"
                                 :background-color ,(override bg)
                                 :color ,(override fg))
+                               (".main-content"
+                                :background-color ,(override bg)
+                                :color ,(override fg))
+                               (".site-header"
+                                :background-color ,(override bg)
+                                :color ,(override fg))
                                (hr
-                                :background-color ,(override hrbg)
+                                :background-color ,(override bg)
                                 :color ,(override hrfg))
                                (.button
                                 :background-color ,(override mlbg)
@@ -197,6 +200,14 @@
                                (h4
                                 :color ,(override h4))
                                (h5
-                                :color ,(override h4))
+                                :color ,(override h5))
                                (h6
-                                :color ,(override h4))))))))
+                                :color ,(override h6)))))
+     (constructor
+      (lambda (mode)
+        (nyxt/style-mode::initialize mode))))))
+
+(defmethod nyxt/style-mode::apply-style ((mode emacs-colorscheme-mode))
+  (if (style mode)
+      (turn-into-my-colorscheme)
+      (nyxt::html-set-style (style mode) (buffer mode))))
