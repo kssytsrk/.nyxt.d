@@ -15,6 +15,13 @@
                      reduce-tracking-mode)
                    %slot-default))))
 
+(setf nyxt::*invisible-modes*
+      (nconc nyxt::*invisible-modes*
+             '("certificate-exception-mode"
+               "reduce-tracking-mode"
+               "blocker-mode"
+               "auto-mode")))
+
 (defparameter old-reddit-handler
   (url-dispatching-handler
    'old-reddit-dispatcher
