@@ -209,5 +209,5 @@
 
 (defmethod nyxt/style-mode::apply-style ((mode emacs-colorscheme-mode))
   (if (style mode)
-      (turn-into-my-colorscheme)
-      (nyxt::html-set-style (style mode) (buffer mode))))
+      (nyxt::html-set-style (style mode) (buffer mode))
+      (turn-into-my-colorscheme)))
