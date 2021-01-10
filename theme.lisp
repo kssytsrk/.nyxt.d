@@ -161,48 +161,50 @@
 
   (nyxt::define-bookmarklet-command turn-into-my-colorscheme
     "Modify the page with my colors"
-    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:" fg " !important;')+e.getAttribute('style'))"))
+    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" fg ";':'" fg ";')+e.getAttribute('style')))"))
 
   (define-mode emacs-colorscheme-mode (nyxt/style-mode:style-mode)
     ((nyxt/style-mode:style (cl-css:css
-                             `((body
-                                :background-color ,(override bg)
-                                :color ,(override fg))
-                               (".mw-body"
-                                :background-color ,(override bg)
-                                :color ,(override fg))
-                               (".main-content"
-                                :background-color ,(override bg)
-                                :color ,(override fg))
-                               (".site-header"
-                                :background-color ,(override bg)
-                                :color ,(override fg))
-                               (hr
-                                :background-color ,(override bg)
-                                :color ,(override hrfg))
-                               (.button
-                                :background-color ,(override mlbg)
-                                :color ,(override mlfg))
-                               (".button:hover"
-                                :color ,(override ml-highlight-fg))
-                               (".button:active"
-                                :color ,(override ml-emphasis-fg))
-                               (".button:visited"
-                                :color ,(override ml-highlight-fg))
-                               (a
-                                :color ,(override a))
-                               (h1
-                                :color ,(override h1))
-                               (h2
-                                :color ,(override h2))
-                               (h3
-                                :color ,(override h3))
-                               (h4
-                                :color ,(override h4))
-                               (h5
-                                :color ,(override h5))
-                               (h6
-                                :color ,(override h6)))))
+                              `((body
+                                 :background-color ,(override bg)
+                                 :color ,(override fg))
+                                (".mw-body"
+                                 :background-color ,(override bg)
+                                 :color ,(override fg))
+                                (".main-content"
+                                 :background-color ,(override bg)
+                                 :color ,(override fg))
+                                (".site-header"
+                                 :background-color ,(override bg)
+                                 :color ,(override fg))
+                                (".bg-white"
+                                 :background-color ,(override bg))
+                                (hr
+                                 :background-color ,(override bg)
+                                 :color ,(override hrfg))
+                                (.button
+                                 :background-color ,(override mlbg)
+                                 :color ,(override mlfg))
+                                (".button:hover"
+                                 :color ,(override ml-highlight-fg))
+                                (".button:active"
+                                 :color ,(override ml-emphasis-fg))
+                                (".button:visited"
+                                 :color ,(override ml-highlight-fg))
+                                (a
+                                 :color ,(override a))
+                                (h1
+                                 :color ,(override h1))
+                                (h2
+                                 :color ,(override h2))
+                                (h3
+                                 :color ,(override h3))
+                                (h4
+                                 :color ,(override h4))
+                                (h5
+                                 :color ,(override h5))
+                                (h6
+                                 :color ,(override h6)))))
      (constructor
       (lambda (mode)
         (nyxt/style-mode::initialize mode))))))

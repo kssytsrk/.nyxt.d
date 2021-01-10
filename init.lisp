@@ -1,7 +1,7 @@
 (in-package :nyxt)
 
 (define-configuration browser
-    ((startup-function (make-startup-function :buffer-fn #'dashboard))))
+  ((startup-function (make-startup-function :buffer-fn #'dashboard))))
 
 (define-configuration buffer
   ((default-modes (append '(emacs-mode) ;; '(vi-normal-mode)
@@ -47,7 +47,7 @@
                                         :search-url "https://html.duckduckgo.com/html/?q=~a"
                                         :fallback-url "https://html.duckduckgo.com/")))))
 
-;;(nyxt::load-lisp "~/.config/nyxt/percentage.lisp")
+(nyxt::load-lisp "~/.config/nyxt/percentage.lisp")
 
 (nyxt::load-lisp "~/.config/nyxt/theme.lisp")
 
