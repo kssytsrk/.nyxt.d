@@ -1,8 +1,8 @@
-(in-package :nyxt-user)
+(in-package :nyxt)
 
 ;; to add all handlers/redirectors (youtube to invidious, reddit to teddit,
 ;; instagram to bibliogram, twitter to nitter)
-;; (setq *my-request-resource-handlers* (nconc *my-request-resource-handlers* nx-freestance-handler:*freestance-handlers*))
+(setq *my-request-resource-handlers* (nconc *my-request-resource-handlers* nx-freestance-handler:*freestance-handlers*))
 
 
 ;; alternatively, you may add each separately
