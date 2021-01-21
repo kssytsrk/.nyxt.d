@@ -54,3 +54,8 @@
 (define-configuration web-buffer
   ((default-modes (append '(emacs-colorscheme-mode)
                           %slot-default))))
+
+(define-configuration buffer
+  ((override-map (let ((map (make-keymap "override-map")))
+                   (define-key map
+                     "M-x" 'execute-command)))))
