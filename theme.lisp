@@ -160,10 +160,11 @@
   ;;                         %slot-default))))
 
   (nyxt::define-bookmarklet-command turn-into-my-colorscheme
-    "Modify the page with my colors"
-    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" fg ";':'" fg ";')+e.getAttribute('style')))"))
+    "Modify the page with Emacs's colors"
+    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" a ";':'" fg ";')+e.getAttribute('style')))"))
 
   (define-mode emacs-colorscheme-mode (nyxt/style-mode:style-mode)
+    "Mode that styles the page to match the user's Emacs theme."
     ((nyxt/style-mode:style (cl-css:css
                               `((body
                                  :background-color ,(override bg)
@@ -207,9 +208,10 @@
                                  :color ,(override h6)))))
      (constructor
       (lambda (mode)
-        (nyxt/style-mode::initialize mode))))))
+        (nyxt/style-mode::initialize mode)))))
 
-(defmethod nyxt/style-mode::apply-style ((mode emacs-colorscheme-mode))
-  (if (style mode)
-      (nyxt::html-set-style (style mode) (buffer mode))
-      (turn-into-my-colorscheme)))
+  (defmethod nyxt/style-mode::apply-style ((mode emacs-colorscheme-mode))
+    (if (style mode)
+        (turn-into-my-colorscheme)
+        ;;(nyxt::html-set-style (style mode) (buffer mode))
+        )))
