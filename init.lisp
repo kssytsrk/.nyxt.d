@@ -47,9 +47,15 @@
                                         :search-url "https://html.duckduckgo.com/html/?q=~a"
                                         :fallback-url "https://html.duckduckgo.com/")))))
 
+(define-configuration buffer
+  ((download-path (make-instance 'download-data-path
+                                 :dirname "~/usr/tmp/"))))
+
 (nyxt::load-lisp "~/.config/nyxt/percentage.lisp")
 
 (nyxt::load-lisp "~/.config/nyxt/theme.lisp")
+
+(nyxt::load-lisp "~/.config/nyxt/smol-improvements.lisp")
 
 (define-configuration web-buffer
   ((default-modes (append '(emacs-colorscheme-mode)
