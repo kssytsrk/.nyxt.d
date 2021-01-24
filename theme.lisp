@@ -161,27 +161,12 @@
 
   (nyxt::define-bookmarklet-command turn-into-my-colorscheme
     "Modify the page with Emacs's colors"
-    (str:concat "javascript:document.querySelectorAll('*').forEach(e=>e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" a ";':'" fg ";')+e.getAttribute('style')))"))
+    (str:concat "javascript:document.querySelectorAll('*').forEach(e=> { e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" a ";':'" fg ";')+e.getAttribute('style')); e.style.fontFamily='Anonymous Pro,serif'; } )"))
 
   (define-mode emacs-colorscheme-mode (nyxt/style-mode:style-mode)
     "Mode that styles the page to match the user's Emacs theme."
     ((nyxt/style-mode:style (cl-css:css
-                              `((body
-                                 :background-color ,(override bg)
-                                 :color ,(override fg))
-                                (".mw-body"
-                                 :background-color ,(override bg)
-                                 :color ,(override fg))
-                                (".main-content"
-                                 :background-color ,(override bg)
-                                 :color ,(override fg))
-                                (".site-header"
-                                 :background-color ,(override bg)
-                                 :color ,(override fg))
-                                (".bg-white"
-                                 :background-color ,(override bg))
-                                (hr
-                                 :background-color ,(override bg)
+                              `((hr
                                  :color ,(override hrfg))
                                 (.button
                                  :background-color ,(override mlbg)
@@ -213,5 +198,11 @@
   (defmethod nyxt/style-mode::apply-style ((mode emacs-colorscheme-mode))
     (if (style mode)
         (turn-into-my-colorscheme)
-        ;;(nyxt::html-set-style (style mode) (buffer mode))
-        )))
+        (nyxt::html-set-style (style mode) (buffer mode))))
+
+  (hooks:add-hook nyxt/web-mode:unzoom-page-after-hook
+                  (hooks:make-handler-void
+                   (lambda ()
+                     (if (find-submode (current-buffer)
+                                       'emacs-colorscheme)
+                         (turn-into-my-colorscheme))))))
