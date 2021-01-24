@@ -10,6 +10,7 @@
 (define-configuration web-buffer
   ((default-modes (append
                    '(auto-mode
+                     emacs-mode
                      noscript-mode
                      blocker-mode
                      reduce-tracking-mode)
@@ -19,8 +20,7 @@
       (nconc nyxt::*invisible-modes*
              '("certificate-exception-mode"
                "reduce-tracking-mode"
-               "blocker-mode"
-               "auto-mode")))
+               "blocker-mode")))
 
 (defparameter old-reddit-handler
   (url-dispatching-handler
@@ -37,15 +37,7 @@
   ((request-resource-hook
     (reduce #'hooks:add-hook
             *my-request-resource-handlers*
-            :initial-value %slot-default))
-   (search-engines (list (make-instance 'search-engine
-                                        :shortcut "wiki"
-                                        :search-url "https://en.wikipedia.org/w/index.php?search=~a"
-                                        :fallback-url "https://en.wikipedia.org/")
-                         (make-instance 'search-engine
-                                        :shortcut "ddg"
-                                        :search-url "https://html.duckduckgo.com/html/?q=~a"
-                                        :fallback-url "https://html.duckduckgo.com/")))))
+            :initial-value %slot-default))))
 
 (define-configuration buffer
   ((download-path (make-instance 'download-data-path
@@ -65,3 +57,5 @@
   ((override-map (let ((map (make-keymap "override-map")))
                    (define-key map
                      "M-x" 'execute-command)))))
+
+(echo "Init file loaded.")
