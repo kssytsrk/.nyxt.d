@@ -58,4 +58,8 @@
                    (define-key map
                      "M-x" 'execute-command)))))
 
+(setf nyxt/vcs:*vcs-projects-roots* '("~/common-lisp"
+                                      "~/usr/dev/cloned"
+                                      "~/.emacs.d/mypkgs"))
+
 (echo "Init file loaded.")
