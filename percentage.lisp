@@ -17,6 +17,7 @@
   (percentage))
 
 (define-command percentage ()
+  "Print percentage to minibuffer, then return the value."
   (echo (%percentage))
   (%percentage))
 
