@@ -21,11 +21,3 @@
   (echo (%percentage))
   (%percentage))
 
-(hooks:add-hook nyxt/web-mode:scroll-down-after-hook
-                (hooks:make-handler-void #'percentage))
-(hooks:add-hook nyxt/web-mode:scroll-up-after-hook
-                (hooks:make-handler-void #'percentage))
-(hooks:add-hook nyxt/web-mode:scroll-to-top-after-hook
-                (hooks:make-handler-void #'percentage))
-(hooks:add-hook nyxt/web-mode:scroll-to-bottom-after-hook
-                (hooks:make-handler-void #'percentage))

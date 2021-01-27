@@ -118,6 +118,26 @@
     (and (web-buffer-p buffer)
          (eq (slot-value buffer 'nyxt::load-status) :loading)))
 
+  (defun percentage-update ()
+    (nyxt::print-status))
+
+  (hooks:add-hook nyxt/web-mode:scroll-to-top-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-to-bottom-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-page-up-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-page-down-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-down-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-up-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-to-top-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+  (hooks:add-hook nyxt/web-mode:scroll-to-bottom-after-hook
+                  (hooks:make-handler-void #'percentage-update))
+
   (defun my-status-formatter (window)
     (let* ((buffer (current-buffer window))
            (buffer-count (1+ (or (position buffer
@@ -141,7 +161,7 @@
                                       "")
                                   (object-display (url buffer))
                                   (title buffer))))
-             (:span :id "aaa" :style "float:right" "todo")))))
+             (:span :id "aaa" :style "float:right" (format nil "~:[0~;~:*~a~]%" (%percentage)))))))
 
   (define-configuration window
       ((message-buffer-style
