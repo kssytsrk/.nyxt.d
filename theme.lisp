@@ -179,7 +179,7 @@
   ;; ((default-modes (append '(emacs-colorscheme-mode)
   ;;                         %slot-default))))
 
-  (nyxt::define-bookmarklet-command %apply-emacs-colorscheme
+  (nyxt::define-bookmarklet-command apply-emacs-colorscheme
     "Modify the page with Emacs's colors"
     (str:concat "javascript:document.querySelectorAll('*').forEach(e=> { e.setAttribute('style','background-color:" bg " !important;color:'+(/^A|BU/.test(e.tagName)?" "'" a ";':'" fg ";')+e.getAttribute('style')); e.style.fontFamily='Anonymous Pro,serif'; } )"))
 
@@ -220,10 +220,10 @@
         (apply-emacs-colorscheme)
         (nyxt::html-set-style (style mode) (buffer mode))))
 
-  (defun apply-emacs-colorscheme ()
+  (defun apply-emacs-colorscheme-handler ()
     (if (find-submode (current-buffer)
                       'emacs-colorscheme)
-        (%apply-emacs-colorscheme)))
+        (apply-emacs-colorscheme)))
 
   (hooks:add-hook nyxt/web-mode:unzoom-page-after-hook
-                  (hooks:make-handler-void #'apply-emacs-colorscheme)))
+                  (hooks:make-handler-void #'apply-emacs-colorscheme-handler)))
