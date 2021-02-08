@@ -1,5 +1,5 @@
-;;;; code in this file copies colors from Emacs, hence its working name is
-;;;; "emacs-colorscheme-theme"
+;;;; the code in this file copies all colors from Emacs, hence its working name
+;;;; is "emacs-colorscheme-theme"
 ;;;; for me it worked and looked fine with multiple themes, but it's sort of a
 ;;;; Russian roulette
 
@@ -8,12 +8,6 @@
 ;;;; M-x server-start RET
 
 (in-package :nyxt-user)
-
-;; TODO: percentage of page viewed
-;; (load "~/.config/nyxt/percentage.lisp")
-;; (defparameter prc nil)
-;; (percentage)
-;; (log:info prc)
 
 (defun emacs-face-attribute (face attribute)
   (string-trim "\"" (uiop:run-program (concatenate 'string
@@ -148,20 +142,22 @@
       (markup:markup
        (:div :id "status-formatter"
              :style (str:concat "background-color:" mlbg "; color:" mlfg)
-             (markup:raw (str:concat
-                          (markup:markup
-                           (:b (str:concat "[ " (format-status-modes) " ]")))
-                          (format nil " (~a/~a) "
-                                  buffer-count
-                                  (length (buffer-list)))
-                          (format nil "~a~a — ~a"
-                                  (if (and (web-buffer-p buffer)
-                                           (eq (slot-value buffer 'nyxt::load-status) :loading))
-                                      "(Loading) "
-                                      "")
-                                  (object-display (url buffer))
-                                  (title buffer))))
-             (:span :id "aaa" :style "float:right" (format nil "~:[0~;~:*~a~]%" (%percentage)))))))
+             (:b (str:concat "[ " (format-status-modes) " ]"))
+             (markup:raw
+              (format nil " (~a/~a) "
+                      buffer-count
+                      (length (buffer-list)))
+              (format nil "~a~a — ~a"
+                      (if (and (web-buffer-p buffer)
+                               (eq (slot-value buffer 'nyxt::load-status) :loading))
+                          "(Loading) "
+                        "")
+                      (object-display (url buffer))
+                      (title buffer)))
+             (:span :id "aaa"
+                    :style "float:right"
+                      (format nil "~:[0~;~:*~a~]%" (%percentage)
+                              ))))))
 
   (define-configuration window
       ((message-buffer-style
@@ -221,9 +217,13 @@
         (nyxt::html-set-style (style mode) (buffer mode))))
 
   (defun apply-emacs-colorscheme-handler ()
-    (if (find-submode (current-buffer)
-                      'emacs-colorscheme)
-        (apply-emacs-colorscheme)))
+    (if (and (web-buffer-p (current-buffer))
+             (find-submode (current-buffer)
+                           'emacs-colorscheme))
+        (apply-emacs-colorscheme))))
 
-  (hooks:add-hook nyxt/web-mode:unzoom-page-after-hook
-                  (hooks:make-handler-void #'apply-emacs-colorscheme-handler)))
+
+(hooks:add-hook nyxt/web-mode:unzoom-page-after-hook
+                (hooks:make-handler-void #'apply-emacs-colorscheme-handler))
+(hooks:add-hook nyxt::reload-current-buffer-after-hook
+                (hooks:make-handler-void #'apply-emacs-colorscheme-handler))
