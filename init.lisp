@@ -22,14 +22,7 @@
                "reduce-tracking-mode"
                "blocker-mode")))
 
-(defparameter old-reddit-handler
-  (url-dispatching-handler
-   'old-reddit-dispatcher
-   (match-host "www.reddit.com")
-   (lambda (url)
-     (quri:copy-uri url :host "old.reddit.com"))))
-
-(defvar *my-request-resource-handlers* (list old-reddit-handler))
+(defvar *my-request-resource-handlers* '())
 
 (load-after-system :nx-freestance-handler (nyxt-init-file "freestance.lisp"))
 
