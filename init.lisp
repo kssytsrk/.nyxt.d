@@ -1,5 +1,7 @@
 (in-package :nyxt)
 
+
+
 (define-configuration browser
   ((startup-function (make-startup-function :buffer-fn #'dashboard))))
 
@@ -32,10 +34,6 @@
             *my-request-resource-handlers*
             :initial-value %slot-default))))
 
-(define-configuration buffer
-  ((download-path (make-instance 'download-data-path
-                                 :dirname "~/usr/tmp/"))))
-
 (nyxt::load-lisp "~/.config/nyxt/percentage.lisp")
 
 (nyxt::load-lisp "~/.config/nyxt/theme.lisp")
@@ -43,13 +41,21 @@
 (nyxt::load-lisp "~/.config/nyxt/smol-improvements.lisp")
 
 (define-configuration web-buffer
-  ((default-modes (append '(emacs-colorscheme-mode)
-                          %slot-default))))
+    ((default-modes (append '(emacs-colorscheme-mode)
+			    %slot-default))))
 
 (define-configuration buffer
-  ((override-map (let ((map (make-keymap "override-map")))
-                   (define-key map
-                     "M-x" 'execute-command)))))
+    ((download-path (make-instance 'download-data-path
+                                 :dirname "~/usr/tmp/"))
+     (bookmarks-path (make-instance 'bookmarks-data-path
+                                  :basename "~/usr/bkm/bookmarks.lisp"))
+     (auto-mode-rules-data-path (make-instance 'auto-mode-rules-data-path
+					       :basename "~/.config/nyxt/auto-mode-rules.lisp"))
+     (history-data-path (make-instance 'history-data-path
+				       :basename "/dev/null"))
+     (override-map (let ((map (make-keymap "override-map")))
+		     (define-key map
+		       "M-x" 'execute-command)))))
 
 (setf nyxt/vcs:*vcs-projects-roots* '("~/common-lisp"
                                       "~/usr/dev/cloned"

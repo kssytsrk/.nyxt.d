@@ -15,7 +15,7 @@
                                                    (string-downcase (string face))
                                                    " :"
                                                    (string-downcase (string attribute))
-                                                   " nil :inherit)\"")
+                                                   " nil t)\"")
                                       :output '(:string :stripped t))))
 
 (let ((bg (emacs-face-attribute 'default :background))
@@ -24,16 +24,17 @@
       (mlfg (emacs-face-attribute 'mode-line :foreground))
       ;;(ml-inactive-bg (emacs-face-attribute 'mode-line-inactive :background))
       ;;(ml-inactive-fg (emacs-face-attribute 'mode-line-inactive :foreground))
-      (ml-highlight-fg (emacs-face-attribute 'mode-line-highlight :foreground))
-      (ml-emphasis-fg (emacs-face-attribute 'mode-line-emphasis :foreground))
-      (h1 (emacs-face-attribute 'outline-1 :foreground))
-      (h2 (emacs-face-attribute 'outline-2 :foreground))
-      (h3 (emacs-face-attribute 'outline-3 :foreground))
-      (h4 (emacs-face-attribute 'outline-4 :foreground))
-      (h5 (emacs-face-attribute 'outline-5 :foreground))
-      (h6 (emacs-face-attribute 'outline-6 :foreground))
+      (ml-highlight-fg
+        (getf (read-from-string (emacs-face-attribute 'mode-line-highlight :box))
+              :color))
+      (h1 (emacs-face-attribute 'outline-2 :foreground))
+      (h2 (emacs-face-attribute 'outline-3 :foreground))
+      (h3 (emacs-face-attribute 'outline-4 :foreground))
+      (h4 (emacs-face-attribute 'outline-5 :foreground))
+      (h5 (emacs-face-attribute 'outline-6 :foreground))
+      (h6 (emacs-face-attribute 'outline-7 :foreground))
       (a (emacs-face-attribute 'link :foreground))
-      (hrfg (emacs-face-attribute 'vertical-border :foreground))
+      (hrfg (emacs-face-attribute 'window-divider :foreground))
       (cursor (emacs-face-attribute 'cursor :background))
       (mb-prompt (emacs-face-attribute 'minibuffer-prompt :foreground)) ; minibuffer prompt
       (mb-selection (emacs-face-attribute 'helm-selection :background))
@@ -88,7 +89,7 @@
             (".button:hover"
              :color ,(override ml-highlight-fg))
             (".button:active"
-             :color ,(override ml-emphasis-fg))
+             :color ,(override ml-highlight-fg))
             (".button:visited"
              :color ,(override ml-highlight-fg))
             (a
@@ -190,7 +191,7 @@
                                 (".button:hover"
                                  :color ,(override ml-highlight-fg))
                                 (".button:active"
-                                 :color ,(override ml-emphasis-fg))
+                                 :color ,(override ml-highlight-fg))
                                 (".button:visited"
                                  :color ,(override ml-highlight-fg))
                                 (a
