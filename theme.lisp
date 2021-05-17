@@ -44,7 +44,7 @@
   (define-configuration minibuffer
       ((style
         (str:concat
-         %slot-default
+         %slot-default%
          (cl-css:css
           `((body
              :border-top ,(str:concat "1px solid" mb-separator)
@@ -75,7 +75,7 @@
   (define-configuration internal-buffer
       ((style
         (str:concat
-         %slot-default
+         %slot-default%
          (cl-css:css
           `((body
              :background-color ,(override bg)
@@ -163,7 +163,7 @@
   (define-configuration window
       ((message-buffer-style
         (str:concat
-         %slot-default
+         %slot-default%
          (cl-css:css
           `((body
              :background-color ,(override bg)
@@ -174,7 +174,7 @@
 
   ;; (define-configuration web-buffer
   ;; ((default-modes (append '(emacs-colorscheme-mode)
-  ;;                         %slot-default))))
+  ;;                         %slot-default%))))
 
   (nyxt::define-bookmarklet-command apply-emacs-colorscheme
     "Modify the page with Emacs's colors"
