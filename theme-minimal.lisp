@@ -16,7 +16,7 @@
       (mb-separator "red"))
 
   ;; minibuffer (bg and fg colors)
-  (define-configuration minibuffer
+  (define-configuration prompt-buffer
       ((style
         (str:concat
          %slot-default%
@@ -26,12 +26,21 @@
              :background-color ,bg
              :color ,fg)
             ("#input"
+	     :background-color ,bg
+             :color ,fg
              :border-bottom ,(str:concat "solid 1px " mb-separator))
             ("#cursor"
              :background-color ,cursor
              :color ,fg)
             ("#prompt"
              :color ,mb-prompt)
+	    (".source-content"
+	     :background-color ,bg)
+	    (".source-content th"
+	     :background-color ,bg)
+	    ("#selection"
+	     :background-color ,mlbg
+	     :color ,mlfg)
             (.marked
              :background-color "grey40"
              :color "black")
@@ -107,14 +116,13 @@
   (defun my-status-formatter (window)
     (let* ((buffer (current-buffer window))
            (buffer-count (1+ (or (position buffer
-                                           (sort (buffer-list)
-                                                 #'string<
-                                                 :key #'id))
+                                           (sort (buffer-list) #'string< :key #'id))
                                  0))))
       (markup:markup
        (:div :id "status-formatter"
              :style (str:concat "background-color:" mlbg "; color:" mlfg)
-             (:b (str:concat "[ " (format-status-modes) " ]"))
+             (:b (str:concat "[ " (format-status-modes (nyxt::current-buffer)
+						       (nyxt::current-window)) " ]"))
              (markup:raw
               (format nil " (~a/~a) "
                       buffer-count
