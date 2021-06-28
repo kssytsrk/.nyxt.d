@@ -93,25 +93,22 @@
     (and (web-buffer-p buffer)
          (eq (slot-value buffer 'nyxt::load-status) :loading)))
 
-  (defun status-update ()
-    (nyxt::print-status))
-
   (hooks:add-hook nyxt/web-mode:scroll-to-top-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-to-bottom-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-page-up-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-page-down-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-down-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-up-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-to-top-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
   (hooks:add-hook nyxt/web-mode:scroll-to-bottom-after-hook
-                  (hooks:make-handler-void #'status-update))
+                  (hooks:make-handler-void #'nyxt::print-status))
 
   (defun my-status-formatter (window)
     (let* ((buffer (current-buffer window))
