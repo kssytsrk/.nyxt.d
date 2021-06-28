@@ -1,9 +1,7 @@
 (in-package :nyxt)
 
-(define-configuration browser
-  ((startup-function (make-startup-function :buffer-fn #'dashboard))))
 
-(define-configuration buffer
+(define-configuration (buffer web-buffer prompt-buffer)
   ((default-modes (append '(emacs-mode) ;; '(vi-normal-mode)
                           %slot-default%))))
 
@@ -27,10 +25,11 @@
 
 (load-after-system :nx-freestance-handler (nyxt-init-file "freestance.lisp"))
 
-(define-configuration buffer
+(define-configuration web-buffer
   ((request-resource-hook
     (reduce #'hooks:add-hook
-            *my-request-resource-handlers*
+            (mapcar #'make-handler-resource
+		    *my-request-resource-handlers*)
             :initial-value %slot-default%))))
 
 (nyxt::load-lisp "~/.config/nyxt/percentage.lisp")
