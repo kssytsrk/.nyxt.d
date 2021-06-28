@@ -131,13 +131,12 @@
                       (if (and (web-buffer-p buffer)
                                (eq (slot-value buffer 'nyxt::load-status) :loading))
                           "(Loading) "
-                        "")
-                      (object-display (url buffer))
+                          "")
+                      (render-url (url buffer))
                       (title buffer)))
-             (:span :id "aaa"
+             (:span :id "percentage"
                     :style "float:right"
-                      (format nil "~:[0~;~:*~a~]%" (%percentage)
-                              ))))))
+                    (format nil "~:[0~;~:*~a~]%" (%percentage)))))))
 
   (define-configuration window
       ((message-buffer-style
